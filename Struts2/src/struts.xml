@@ -1,0 +1,138 @@
+<?xml version="1.0" encoding="EUC-KR"?>
+<!DOCTYPE struts PUBLIC
+	"-//Apache software Foundation//DTD STruts Configuration 2.0//EN"
+	"http://struts.apache.org/dtds/struts-2.0.dtd">
+
+<struts>
+	<package name="hello" extends="struts-default">
+		<action name="hello" class="hello.HelloWorldAction">
+			<result>/result.jsp</result>
+		</action>
+	</package>
+
+	<package name="hello1" extends="struts-default">
+		<action name="hello" class="hello1.action.HelloWorld">
+			<result name="success">/hello1/result.jsp</result>
+		</action>
+	</package>
+
+	<package name="hello2" extends="struts-default">
+		<action name="hello" class="hello2.action.HelloWorld">
+			<interceptor-ref name="params" />
+			<result name="success">/hello2/result.jsp</result>
+			<result name="input">/hello2/hello.jsp</result>
+		</action>
+	</package>
+
+	<package name="hello3" extends="struts-default">
+		<action name="hello" class="hello3.action.HelloWorld">
+			<!-- params 인터셉터는 액션의 setter값을 요청 파라미터로 셋팅한다 -->
+			<interceptor-ref name="params" />
+			<!-- workflow 인터셉터는 Action에서 validate()을 먼저 호출한다. -->
+			<interceptor-ref name="workflow" />
+			<result name="input">/hello3/hello.jsp</result>
+			<result name="success">/hello3/result.jsp</result>
+		</action>
+	</package>
+
+	<package name="jb" extends="struts-default">
+		<action name="user" class="login.action.UserAction">
+			<result>/form1/save_ok.jsp</result>
+			<result name="error">/form1/error.jsp</result>
+		</action>
+
+		<action name="user2" class="login.action.UserAction2">
+			<result>/form2/save_ok2.jsp</result>
+			<result name="error">/form2/error.jsp</result>
+		</action>
+
+		<action name="user3" class="login.action.UserAction3">
+			<result>/form3/save_ok3.jsp</result>
+			<result name="error">/form3/error.jsp</result>
+		</action>
+	</package>
+
+	<package name="jb2" extends="struts-default">
+		<interceptors>
+			<interceptor name="mytimer" class="interceptor.Timer" />
+		</interceptors>
+		<action name="add" class="interceptor1.action.SumAction">
+			<interceptor-ref name="mytimer" />
+			<interceptor-ref name="prepare" />
+			<interceptor-ref name="modelDriven" />
+			<interceptor-ref name="params" />
+
+			<result>/interceptor/result.jsp</result>
+		</action>
+
+		<action name="login" class="login2.action.LoginAction">
+			<interceptor-ref name="prepare" />
+			<interceptor-ref name="modelDriven" />
+			<interceptor-ref name="params" />
+			<result>/interceptor/login/login.jsp</result>
+		</action>
+	</package>
+
+	<package name="struts2" extends="struts-default">
+		<action name="add2" class="staticParams.action.SumAction">
+			<param name="num1">9</param>
+			<param name="num2">9</param>
+			<interceptor-ref name="staticParams" />
+			<result>/staticParams/result.jsp</result>
+		</action>
+	</package>
+
+	<package name="struts22" extends="struts-default">
+		<action name="checkbox" class="checkbox.action.CheckBoxAction">
+			<interceptor-ref name="checkbox">
+				<param name="uncheckedValue">false</param>
+			</interceptor-ref>
+			<interceptor-ref name="checkbox" />
+			<interceptor-ref name="prepare" />
+			<interceptor-ref name="modelDriven" />
+			<interceptor-ref name="params" />
+			<result>/checkbox/result.jsp</result>
+		</action>
+	</package>
+
+	<package name="struts21" extends="struts-default">
+		<interceptors>
+			<interceptor name="loginDao"
+				class="servletConfig.interceptor.LoginDAOInterceptor" />
+		</interceptors>
+
+		<action name="login2" class="servletConfig.action.LoginAction">
+			<interceptor-ref name="prepare" />
+			<interceptor-ref name="modelDriven" />
+			<interceptor-ref name="params" />
+			<interceptor-ref name="loginDao" />
+			<interceptor-ref name="servletConfig" />
+			<result>/servletConfig/login_ok.jsp</result>
+			<result name="login">/servletConfig/login.jsp</result>
+		</action>
+
+		<action name="login4" class="login4.action.LoginAction">
+			<interceptor-ref name="params" />
+			<result name="success" type="redirect">/login/login_ok.jsp?id=${id}
+			</result>
+			<result name="login">/login/login.jsp</result>
+		</action>
+
+		<action name="member" class="chain.action.MemberAction">
+			<interceptor-ref name="prepare"/>
+			<interceptor-ref name="modelDriven"/>
+			<interceptor-ref name="params"/>
+			<result name="success" type="chain">
+				<param name="actionName">login13</param>
+			</result>
+			<result name="login">/login/login.jsp</result>		
+		</action>
+		<action name="login13" class="chain.action.LoginAction">
+			<interceptor-ref name="chain"/>
+			<interceptor-ref name="params"/>
+			<result name="success">/login/login_ok.jsp</result>
+			<result name="login">/login/login.jsp</result>
+		</action>
+	</package>
+</struts>	
+
